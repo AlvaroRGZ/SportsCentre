@@ -27,7 +27,4 @@ public class NoticeController {
     noticeRepository.deleteById(id);
   }
 
-  public String sayHello(String user) {
-    return "Welcome " + user;
-  }
 }
