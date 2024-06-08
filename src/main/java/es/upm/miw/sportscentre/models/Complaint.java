@@ -1,4 +1,5 @@
 package es.upm.miw.sportscentre.models;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +13,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document
-public class Notice {
+@Document(collection = "complaints")
+public class Complaint {
   @Id
   private String id;
   private String title;
   private String body;
-  private LocalDateTime dateTime;
+  private LocalDateTime datetime;
 }

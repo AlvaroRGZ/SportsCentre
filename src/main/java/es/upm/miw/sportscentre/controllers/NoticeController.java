@@ -19,12 +19,16 @@ public class NoticeController {
     return noticeRepository.findById(id).orElse(null);
   }
 
-  public Notice save(Notice sportCentre) {
-    return noticeRepository.save(sportCentre);
+  public Notice save(Notice notice) {
+    return noticeRepository.save(notice);
   }
 
   public void deleteById(String id) {
     noticeRepository.deleteById(id);
+  }
+
+  public void deleteAllNoticesBeforeDate() {
+    noticeRepository.deleteAll();
   }
 
 }
