@@ -33,4 +33,9 @@ public class ComplaintView {
   public void deleteComplaint(@PathVariable String id) {
     ComplaintController.deleteById(id);
   }
+
+  @DeleteMapping
+  public void deleteAllComplaintsBeforeDate() {
+    ComplaintController.deleteAllNoticesBeforeDate();
+  }
 }

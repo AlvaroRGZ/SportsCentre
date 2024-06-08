@@ -36,4 +36,8 @@ public class UserController {
     });
     userRepository.deleteById(id);
   }
+
+  public void deleteAll() {
+    this.userRepository.deleteAll();
+  }
 }

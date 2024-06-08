@@ -28,4 +28,8 @@ public class ComplaintController {
   public void deleteById(String id) {
     ComplaintRepository.deleteById(id);
   }
+
+  public void deleteAllNoticesBeforeDate() {
+    ComplaintRepository.deleteAll();
+  }
 }

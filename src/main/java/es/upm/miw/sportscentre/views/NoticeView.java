@@ -36,4 +36,9 @@ public class NoticeView {
   public void deleteNotice(@PathVariable String id) {
     noticeController.deleteById(id);
   }
+
+  @DeleteMapping
+  public void deleteAllNoticesBeforeDate() {
+    noticeController.deleteAllNoticesBeforeDate();
+  }
 }

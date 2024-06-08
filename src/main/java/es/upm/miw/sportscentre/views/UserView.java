@@ -33,4 +33,9 @@ public class UserView {
   public void deleteUser(@PathVariable String id) {
     UserController.deleteById(id);
   }
+
+  @DeleteMapping
+  public void deleteAllUsers() {
+    UserController.deleteAll();
+  }
 }
