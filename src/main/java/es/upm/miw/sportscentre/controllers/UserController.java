@@ -1,6 +1,5 @@
 package es.upm.miw.sportscentre.controllers;
 
-import es.upm.miw.sportscentre.models.daos.NoticeRepository;
 import es.upm.miw.sportscentre.models.User;
 import es.upm.miw.sportscentre.models.daos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ public class UserController {
 
   @Autowired
   private UserRepository userRepository;
-  @Autowired
-  private NoticeRepository noticeRepository;
 
   public List<User> findAll() {
     return userRepository.findAll();
@@ -24,9 +21,6 @@ public class UserController {
   }
 
   public User save(User user) {
-    user.getNotices().forEach((notice -> {
-      this.noticeRepository.save(notice);
-    }));
     return userRepository.save(user);
   }
 
