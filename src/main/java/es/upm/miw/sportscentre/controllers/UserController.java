@@ -1,6 +1,7 @@
 package es.upm.miw.sportscentre.controllers;
 
 import es.upm.miw.sportscentre.models.User;
+import es.upm.miw.sportscentre.models.daos.ComplaintRepository;
 import es.upm.miw.sportscentre.models.daos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ public class UserController {
 
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private ComplaintRepository complaintRepository;
 
   public List<User> findAll() {
     return userRepository.findAll();
@@ -21,10 +24,16 @@ public class UserController {
   }
 
   public User save(User user) {
+    user.getComplaints().forEach(complaint -> {
+      this.complaintRepository.save(complaint);
+    });
     return userRepository.save(user);
   }
 
   public void deleteById(String id) {
+    this.findById(id).getComplaints().forEach(complaint -> {
+      this.complaintRepository.delete(complaint);
+    });
     userRepository.deleteById(id);
   }
 }
