@@ -18,4 +18,16 @@ public class Material {
   private String name;
   private String description;
   private Integer quantity;
+
+  public void addQuantity(int quantity) {
+    this.quantity += quantity;
+  }
+
+  public void removeQuantity(int quantity) {
+    if (this.quantity > quantity) {
+      this.quantity -= quantity;
+    } else {
+      this.quantity = 0;
+    }
+  }
 }
