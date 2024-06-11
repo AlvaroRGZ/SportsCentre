@@ -26,7 +26,7 @@ public class BookingController {
   }
 
   public Booking save(Booking booking) {
-    // Restar una unidad de cada material
+    // Update materials quantity
     return bookingRepository.save(booking);
   }
 
