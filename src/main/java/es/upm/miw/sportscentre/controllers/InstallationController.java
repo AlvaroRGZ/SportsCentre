@@ -51,4 +51,7 @@ public class InstallationController {
     }
   }
 
+  public boolean isNameAvailable(String name) {
+    return !installationRepository.existsByName(name);
+  }
 }
