@@ -24,8 +24,13 @@ public class InstallationView {
   }
 
   @PostMapping
-  public Installation createInstallation(@RequestBody Installation Installation) {
-    return installationController.save(Installation);
+  public Installation createInstallation(@RequestBody Installation installation) {
+    return installationController.save(installation);
+  }
+
+  @PutMapping("/{id}")
+  public Installation updateInstallation(@PathVariable String id, @RequestBody Installation installation) {
+    return installationController.update(id, installation);
   }
 
   @DeleteMapping("/{id}")
