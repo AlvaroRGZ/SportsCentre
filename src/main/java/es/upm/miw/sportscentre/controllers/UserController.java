@@ -1,5 +1,6 @@
 package es.upm.miw.sportscentre.controllers;
 
+import es.upm.miw.sportscentre.models.Complaint;
 import es.upm.miw.sportscentre.models.User;
 import es.upm.miw.sportscentre.models.daos.ComplaintRepository;
 import es.upm.miw.sportscentre.models.daos.UserRepository;
@@ -24,10 +25,15 @@ public class UserController {
   }
 
   public User save(User user) {
-    user.getComplaints().forEach(complaint -> {
-      this.complaintRepository.save(complaint);
-    });
-    return userRepository.save(user);
+    System.out.println("GUARDANDO USUARIO " + user.getEmail());
+    //user.getComplaints().forEach(complaint -> {
+    //  this.complaintRepository.save(complaint);
+    //});
+    if (!userRepository.existsById(user.getId())) {
+      user.setComplaints(List.of());
+      return userRepository.save(user);
+    }
+    return user;
   }
 
   public void deleteById(String id) {
@@ -39,5 +45,9 @@ public class UserController {
 
   public void deleteAll() {
     this.userRepository.deleteAll();
+  }
+
+  public User findByEmail(String email) {
+    return this.userRepository.findUserByEmail(email);
   }
 }
