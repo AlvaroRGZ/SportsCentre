@@ -12,30 +12,30 @@ import java.util.List;
 public class UserView {
 
   @Autowired
-  private UserController UserController;
+  private UserController userController;
 
   @GetMapping
   public List<User> getAll() {
-    return UserController.findAll();
+    return userController.findAll();
   }
 
   @GetMapping("/{id}")
   public User getUserById(@PathVariable String id) {
-    return UserController.findById(id);
+    return userController.findById(id);
   }
 
   @PostMapping
   public User createUser(@RequestBody User user) {
-    return UserController.save(user);
+    return userController.save(user);
   }
 
   @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable String id) {
-    UserController.deleteById(id);
+    userController.deleteById(id);
   }
 
   @DeleteMapping
   public void deleteAllUsers() {
-    UserController.deleteAll();
+    userController.deleteAll();
   }
 }

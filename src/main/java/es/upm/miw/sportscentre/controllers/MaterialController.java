@@ -20,6 +20,13 @@ public class MaterialController {
     return materialRepository.findById(id).orElse(null);
   }
 
+  public List<Material> findByListOfIds(List<String> materialIds) {
+    if (materialIds.size() == 0) {
+      return List.of();
+    }
+    return materialIds.stream().map(this::findById).toList();
+  }
+
   public Material save(Material Material) {
     return materialRepository.save(Material);
   }
@@ -31,5 +38,4 @@ public class MaterialController {
   public void deleteAll() {
     materialRepository.deleteAll();
   }
-
 }

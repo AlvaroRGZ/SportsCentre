@@ -2,6 +2,7 @@ package es.upm.miw.sportscentre.views;
 
 import es.upm.miw.sportscentre.controllers.BookingController;
 import es.upm.miw.sportscentre.models.Booking;
+import es.upm.miw.sportscentre.views.dtos.BookingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,8 @@ public class BookingView {
   }
 
   @PostMapping
-  public Booking createBooking(@RequestBody Booking user) {
-    return bookingController.save(user);
+  public Booking createBooking(@RequestBody BookingDto booking) {
+    return bookingController.save(booking);
   }
 
   @DeleteMapping("/{id}")
