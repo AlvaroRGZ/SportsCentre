@@ -12,7 +12,7 @@ import java.util.UUID;
 public class ComplaintController {
 
   @Autowired
-  private ComplaintRepository ComplaintRepository ;
+  private ComplaintRepository ComplaintRepository;
 
   public List<Complaint> findAll() {
     return ComplaintRepository.findAll();

@@ -14,7 +14,7 @@ public class UserController {
   @Autowired
   private UserRepository userRepository;
   @Autowired
-  private ComplaintRepository complaintRepository;
+  private ComplaintController complaintController;
 
   public List<User> findAll() {
     return userRepository.findAll();
@@ -57,5 +57,35 @@ public class UserController {
 
   public boolean existsByEmail(String email) {
     return this.userRepository.existsByEmail(email);
+  }
+
+  public User addComplaintToUser(String email, Complaint complaint) {
+    User user = this.userRepository.findUserByEmail(email);
+    this.complaintController.save(complaint);
+    user.addComplaint(complaint);
+    System.out.println("USER: " + user);
+    System.out.println("COMPLAINT: " + complaint);
+    return this.userRepository.save(user);
+  }
+
+  public User deleteComplaintFromUser(String email, String complaintId) {
+    User user = this.userRepository.findUserByEmail(email);
+    Complaint complaint = this.complaintController.findById(complaintId);
+    user.deleteComplaint(complaint);
+    this.complaintController.deleteById(complaintId);
+    return this.userRepository.save(user);
+  }
+
+  public List<Complaint> getUserComplaints(String email) {
+    User user = userRepository.findUserByEmail(email);
+    if (user != null) {
+      return user.getComplaints();
+    }
+    // Handle case when user is not found
+    throw new IllegalArgumentException("User with email " + email + " not found");
+  }
+
+  public List<User> findUsersWhoHaveComplaints() {
+    return this.userRepository.findUsersWithNonEmptyComplaints();
   }
 }

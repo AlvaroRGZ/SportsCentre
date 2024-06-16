@@ -27,9 +27,12 @@ public class NoticeView {
 
   @PostMapping
   public Notice createNotice(@RequestBody Notice notice) {
-    // Notice n = Notice.builder().title("hola").body("Esto es una gran noticia creada a las: " + LocalDateTime.now()).build();¡
-    notice.setBody(notice.getBody() + "\nCreada a las: " + LocalDateTime.now());
     return noticeController.save(notice);
+  }
+
+  @PutMapping("/{id}")
+  public Notice createNotice(@PathVariable String id, @RequestBody Notice notice) {
+    return noticeController.update(id, notice);
   }
 
   @DeleteMapping("/{id}")
