@@ -21,4 +21,12 @@ public class User {
   private String role;
   @DBRef
   private List<Complaint> complaints;
+
+  public void addComplaint(Complaint complaint) {
+    this.complaints.add(complaint);
+  }
+
+  public void deleteComplaint(Complaint complaint) {
+    this.complaints.remove(complaint);
+  }
 }

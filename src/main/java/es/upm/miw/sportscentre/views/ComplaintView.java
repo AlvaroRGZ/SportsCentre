@@ -25,8 +25,8 @@ public class ComplaintView {
   }
 
   @PostMapping
-  public Complaint createComplaint(@RequestBody Complaint Complaint) {
-    return ComplaintController.save(Complaint);
+  public Complaint createComplaint(@RequestBody Complaint complaint) {
+    return ComplaintController.save(complaint);
   }
 
   @DeleteMapping("/{id}")
