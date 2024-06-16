@@ -25,6 +25,11 @@ public class BookingView {
     return bookingController.findById(id);
   }
 
+  @GetMapping("/installation/{installationId}")
+  public List<Booking> findByInstallationId(@PathVariable String installationId) {
+    return bookingController.findByInstallationId(installationId);
+  }
+
   @PostMapping
   public Booking createBooking(@RequestBody BookingDto booking) {
     return bookingController.save(booking);
