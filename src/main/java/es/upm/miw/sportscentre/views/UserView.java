@@ -26,6 +26,11 @@ public class UserView {
     return userController.findById(id);
   }
 
+  @GetMapping("complaints")
+  public List<User> getUsersWhoHaveComplaints() {
+    return userController.findUsersWhoHaveComplaints();
+  }
+
   @GetMapping("/{email}/complaints")
   public List<Complaint> findUserComplaints(@PathVariable String email) {
     return userController.getUserComplaints(email);

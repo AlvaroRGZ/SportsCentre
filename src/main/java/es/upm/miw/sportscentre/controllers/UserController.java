@@ -84,4 +84,8 @@ public class UserController {
     // Handle case when user is not found
     throw new IllegalArgumentException("User with email " + email + " not found");
   }
+
+  public List<User> findUsersWhoHaveComplaints() {
+    return this.userRepository.findUsersWithNonEmptyComplaints();
+  }
 }
