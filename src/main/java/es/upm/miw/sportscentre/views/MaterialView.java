@@ -1,8 +1,10 @@
 package es.upm.miw.sportscentre.views;
 
 import es.upm.miw.sportscentre.controllers.MaterialController;
+import es.upm.miw.sportscentre.models.Installation;
 import es.upm.miw.sportscentre.models.Material;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -26,6 +28,11 @@ public class MaterialView {
   @PostMapping
   public Material createMaterial(@RequestBody Material Material) {
     return materialController.save(Material);
+  }
+
+  @PutMapping("/{id}")
+  public Material updateInstallation(@PathVariable String id, @RequestBody Material material) {
+    return materialController.update(id, material);
   }
 
   @DeleteMapping("/{id}")

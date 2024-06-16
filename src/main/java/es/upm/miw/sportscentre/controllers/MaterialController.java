@@ -1,10 +1,12 @@
 package es.upm.miw.sportscentre.controllers;
 
 import es.upm.miw.sportscentre.models.Material;
+import es.upm.miw.sportscentre.models.Material;
 import es.upm.miw.sportscentre.models.daos.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MaterialController {
@@ -37,5 +39,20 @@ public class MaterialController {
 
   public void deleteAll() {
     materialRepository.deleteAll();
+  }
+
+  public Material update(String id, Material material) {
+    System.out.println("Registro " + material.toString());
+    Optional<Material> existingMaterialOptional = materialRepository.findById(id);
+    if (existingMaterialOptional.isPresent()) {
+      Material existingMaterial = existingMaterialOptional.get();
+      existingMaterial.setName(material.getName());
+      existingMaterial.setDescription(material.getDescription());
+      existingMaterial.setQuantity(material.getQuantity());
+      return materialRepository.save(existingMaterial);
+    } else {
+      // throw new Exception("Non existent material: " + materialId);
+      return material;
+    }
   }
 }

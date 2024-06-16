@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ComplaintController {
@@ -21,8 +22,9 @@ public class ComplaintController {
     return ComplaintRepository.findById(id).orElse(null);
   }
 
-  public Complaint save(Complaint sportCentre) {
-    return ComplaintRepository.save(sportCentre);
+  public Complaint save(Complaint complaint) {
+    complaint.setId(UUID.randomUUID().toString());
+    return ComplaintRepository.save(complaint);
   }
 
   public void deleteById(String id) {

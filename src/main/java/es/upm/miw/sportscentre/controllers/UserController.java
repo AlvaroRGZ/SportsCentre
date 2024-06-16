@@ -26,20 +26,24 @@ public class UserController {
 
   public User save(User user) {
     System.out.println("GUARDANDO USUARIO " + user.getEmail());
-    //user.getComplaints().forEach(complaint -> {
-    //  this.complaintRepository.save(complaint);
-    //});
-    if (!userRepository.existsById(user.getId())) {
-      user.setComplaints(List.of());
-      return userRepository.save(user);
+
+    if (!userRepository.existsByEmail(user.getEmail())) {
+      return userRepository.save(
+        User.builder()
+          .name(user.getEmail().substring(0, user.getEmail().indexOf('@')))
+          .email(user.getEmail())
+          .password(user.getPassword())
+          .role(user.getRole())
+          .complaints(List.of())
+          .build());
     }
     return user;
   }
 
   public void deleteById(String id) {
-    this.findById(id).getComplaints().forEach(complaint -> {
-      this.complaintRepository.delete(complaint);
-    });
+    //this.findById(id).getComplaints().forEach(complaint -> {
+    //  this.complaintRepository.delete(complaint);
+    //});
     userRepository.deleteById(id);
   }
 
@@ -49,5 +53,9 @@ public class UserController {
 
   public User findByEmail(String email) {
     return this.userRepository.findUserByEmail(email);
+  }
+
+  public boolean existsByEmail(String email) {
+    return this.userRepository.existsByEmail(email);
   }
 }

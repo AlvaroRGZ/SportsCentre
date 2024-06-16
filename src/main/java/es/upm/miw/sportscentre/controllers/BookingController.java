@@ -32,6 +32,10 @@ public class BookingController {
     return bookingRepository.findById(id).orElse(null);
   }
 
+  public List<Booking> findByInstallationId(String installationId) {
+    return bookingRepository.findByInstallationId(installationId);
+  }
+
   public Booking save(BookingDto booking) {
     // Update materials quantity
     return bookingRepository.save(

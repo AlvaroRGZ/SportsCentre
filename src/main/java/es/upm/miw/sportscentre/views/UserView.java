@@ -3,6 +3,7 @@ package es.upm.miw.sportscentre.views;
 import es.upm.miw.sportscentre.controllers.UserController;
 import es.upm.miw.sportscentre.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,13 @@ public class UserView {
   @GetMapping("/{id}")
   public User getUserById(@PathVariable String id) {
     return userController.findById(id);
+  }
+
+  @GetMapping("existsByEmail")
+  public ResponseEntity<Boolean> existsByEmail(@RequestParam String email) {
+    boolean exists = userController.existsByEmail(email);
+    System.out.println("Email " + email + " : " + exists);
+    return ResponseEntity.ok(exists);
   }
 
   @PostMapping
