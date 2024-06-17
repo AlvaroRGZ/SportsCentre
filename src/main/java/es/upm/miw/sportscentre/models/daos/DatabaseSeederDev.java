@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Profile("!test")
+@Profile("dev")
 @Service
 public class DatabaseSeederDev {
   private final MaterialRepository materialRepository;
