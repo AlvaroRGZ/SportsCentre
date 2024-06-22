@@ -1,5 +1,6 @@
 package es.upm.miw.sportscentre.models.daos;
 
+import es.upm.miw.sportscentre.models.Complaint;
 import es.upm.miw.sportscentre.models.Installation;
 import es.upm.miw.sportscentre.models.Material;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Profile("dev")
@@ -15,12 +17,15 @@ import java.util.List;
 public class DatabaseSeederDev {
   private final MaterialRepository materialRepository;
   private final InstallationRepository installationRepository;
+  private final ComplaintRepository complaintRepository;
 
   @Autowired
   public DatabaseSeederDev(MaterialRepository materialRepository,
-                           InstallationRepository installationRepository) {
+                           InstallationRepository installationRepository,
+                           ComplaintRepository complaintRepository) {
     this.materialRepository = materialRepository;
     this.installationRepository = installationRepository;
+    this.complaintRepository = complaintRepository;
     this.deleteAllAndInitializeAndSeedDataBase();
   }
 
@@ -32,6 +37,7 @@ public class DatabaseSeederDev {
   private void deleteAllAndInitialize() {
     this.materialRepository.deleteAll();
     this.installationRepository.deleteAll();
+    this.complaintRepository.deleteAll();
     LogManager.getLogger(this.getClass()).warn("------- Delete All -----------");
   }
 
@@ -66,6 +72,21 @@ public class DatabaseSeederDev {
     };
     this.installationRepository.saveAll(List.of(installations));
     LogManager.getLogger(this.getClass()).warn("        ------- Installations");
+
+    Complaint[] complaints = {
+        Complaint.builder().title("Unscheduled Maintenance").body("The gym was closed unexpectedly.").datetime(LocalDateTime.now().minusDays(1)).build(),
+        Complaint.builder().title("Equipment Issue").body("The treadmill is not working properly.").datetime(LocalDateTime.now().minusHours(2)).build(),
+        Complaint.builder().title("Customer Service").body("Reception was not helpful.").datetime(LocalDateTime.now().minusWeeks(1)).build(),
+        Complaint.builder().title("Overcrowding").body("Too many people during peak hours.").datetime(LocalDateTime.now().minusDays(3)).build(),
+        Complaint.builder().title("Hygiene Concern").body("The locker rooms were not clean.").datetime(LocalDateTime.now().minusDays(2)).build(),
+        Complaint.builder().title("Membership Fee").body("Discrepancy in the billing amount.").datetime(LocalDateTime.now().minusMonths(1)).build(),
+        Complaint.builder().title("Instructor Late").body("The yoga instructor arrived late.").datetime(LocalDateTime.now().minusDays(5)).build(),
+        Complaint.builder().title("Parking Issue").body("Parking lot was full.").datetime(LocalDateTime.now().minusDays(7)).build(),
+        Complaint.builder().title("No Water").body("Water dispenser was empty for the whole day.").datetime(LocalDateTime.now().minusHours(5)).build(),
+        Complaint.builder().title("Air Conditioning").body("Air conditioning was not working in the spin room.").datetime(LocalDateTime.now().minusDays(6)).build()
+    };
+    this.complaintRepository.saveAll(List.of(complaints));
+    LogManager.getLogger(this.getClass()).warn("        ------- Complaints");
   }
 
 }
