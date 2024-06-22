@@ -52,7 +52,6 @@ public class DatabaseSeederDev {
     this.materialRepository.saveAll(List.of(materials));
     LogManager.getLogger(this.getClass()).warn("        ------- materials");
 
-    LogManager.getLogger(this.getClass()).warn("------- Initial Load of Installations from JAVA -----------");
     Installation[] installations = {
         Installation.builder().name("Indoor Basketball Court").description("Full-size indoor basketball court").capacity(30).rentalPrice(BigDecimal.valueOf(50.00)).build(),
         Installation.builder().name("Swimming Pool").description("Olympic size swimming pool").capacity(100).rentalPrice(BigDecimal.valueOf(100.00)).build(),
