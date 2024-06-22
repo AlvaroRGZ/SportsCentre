@@ -1,16 +1,20 @@
 package es.upm.miw.sportscentre.controllers;
 
 import es.upm.miw.sportscentre.models.Booking;
+import es.upm.miw.sportscentre.models.Material;
+import es.upm.miw.sportscentre.models.User;
 import es.upm.miw.sportscentre.models.daos.ComplaintRepository;
 import es.upm.miw.sportscentre.models.daos.BookingRepository;
 import es.upm.miw.sportscentre.models.daos.MaterialRepository;
 import es.upm.miw.sportscentre.models.daos.UserRepository;
 import es.upm.miw.sportscentre.views.dtos.BookingDto;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingController {
@@ -60,5 +64,17 @@ public class BookingController {
 
   public void deleteAll() {
     this.bookingRepository.deleteAll();
+  }
+
+  public List<Booking> findByBookerEmail(String email) {
+    User user = this.userController.findByEmail(email);
+    return this.bookingRepository.findByBookerId(user.getId());
+  }
+
+  public Booking updateMaterials(String id, List<Material> materials) {
+    Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+    booking.setMaterials(materials);
+    LogManager.getLogger(this.getClass()).warn("updated ");
+    return bookingRepository.save(booking);
   }
 }
