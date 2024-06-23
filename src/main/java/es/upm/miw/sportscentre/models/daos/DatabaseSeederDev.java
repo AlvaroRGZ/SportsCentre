@@ -1,9 +1,6 @@
 package es.upm.miw.sportscentre.models.daos;
 
-import es.upm.miw.sportscentre.models.Complaint;
-import es.upm.miw.sportscentre.models.Installation;
-import es.upm.miw.sportscentre.models.Material;
-import es.upm.miw.sportscentre.models.User;
+import es.upm.miw.sportscentre.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -20,16 +17,19 @@ public class DatabaseSeederDev {
   private final InstallationRepository installationRepository;
   private final ComplaintRepository complaintRepository;
   private final UserRepository userRepository;
+  private final NoticeRepository noticeRepository;
 
   @Autowired
   public DatabaseSeederDev(MaterialRepository materialRepository,
                            InstallationRepository installationRepository,
                            ComplaintRepository complaintRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           NoticeRepository noticeRepository) {
     this.materialRepository = materialRepository;
     this.installationRepository = installationRepository;
     this.complaintRepository = complaintRepository;
     this.userRepository = userRepository;
+    this.noticeRepository = noticeRepository;
     this.deleteAllAndInitializeAndSeedDataBase();
   }
 
@@ -43,6 +43,7 @@ public class DatabaseSeederDev {
     this.installationRepository.deleteAll();
     this.complaintRepository.deleteAll();
     this.userRepository.deleteAll();
+    this.noticeRepository.deleteAll();
     LogManager.getLogger(this.getClass()).warn("------- Delete All -----------");
   }
 
@@ -98,40 +99,21 @@ public class DatabaseSeederDev {
     LogManager.getLogger(this.getClass()).warn("        ------- Complaints");
 
     User[] users = {
-        User.builder()
-            .name("admin")
-            .email("admin@gmail.com")
-            .password("aaaaaa")
-            .role("ADMIN")
-            .complaints(List.of())
-            .id("1")
-            .build(),
-
-        User.builder()
-            .name("client")
-            .email("client@gmail.com")
-            .password("cccccc")
-            .role("CLIENT")
-            .complaints(List.of(complaints[12]))
-            .build(),
-
-        User.builder()
-            .name("a")
-            .email("a@gmail.com")
-            .password("aaaaaa")
-            .role("CLIENT")
-            .complaints(List.of(complaints[11], complaints[12]))
-            .build(),
-
-        User.builder()
-            .name("b")
-            .email("b@gmail.com")
-            .password("bbbbbb")
-            .role("CLIENT")
-            .complaints(List.of())
-            .build(),
+        User.builder().name("admin").email("admin@gmail.com").password("aaaaaa").role("ADMIN").complaints(List.of()).id("1").build(),
+        User.builder().name("client").email("client@gmail.com").password("cccccc").role("CLIENT").complaints(List.of(complaints[12])).build(),
+        User.builder().name("a").email("a@gmail.com").password("aaaaaa").role("CLIENT").complaints(List.of(complaints[11], complaints[12])).build(),
+        User.builder().name("b").email("b@gmail.com").password("bbbbbb").role("CLIENT").complaints(List.of()).build(),
     };
     this.userRepository.saveAll(List.of(users));
     LogManager.getLogger(this.getClass()).warn("        ------- Users");
+
+    Notice[] notices = {
+        Notice.builder().title("Notice 1").body("Notice body 1").dateTime(LocalDateTime.now().minusDays(1)).id("1").build(),
+        Notice.builder().title("Notice 2").body("Notice body 2").dateTime(LocalDateTime.now().minusDays(2)).build(),
+        Notice.builder().title("Notice 3").body("Notice body 3").dateTime(LocalDateTime.now().minusDays(3)).build(),
+        Notice.builder().title("Notice 4").body("Notice body 4").dateTime(LocalDateTime.now().minusDays(4)).build()
+    };
+    this.noticeRepository.saveAll(List.of(notices));
+    LogManager.getLogger(this.getClass()).warn("        ------- Notices");
   }
 }
