@@ -36,19 +36,12 @@ public class InstallationController {
   }
 
   public Installation update(String installationId, Installation installation) {
-    System.out.println("Registro " + installation.toString());
-    Optional<Installation> existingInstallationOptional = installationRepository.findById(installationId);
-    if (existingInstallationOptional.isPresent()) {
-      Installation existingInstallation = existingInstallationOptional.get();
-      existingInstallation.setName(installation.getName());
-      existingInstallation.setDescription(installation.getDescription());
-      existingInstallation.setCapacity(installation.getCapacity());
-      existingInstallation.setRentalPrice(installation.getRentalPrice());
-      return installationRepository.save(existingInstallation);
-    } else {
-        // throw new Exception("Non existent installation: " + installationId);
-      return installation;
-    }
+    Installation existingInstallation = installationRepository.findById(installationId).orElseThrow(() -> new RuntimeException("Booking not found"));
+    existingInstallation.setName(installation.getName());
+    existingInstallation.setDescription(installation.getDescription());
+    existingInstallation.setCapacity(installation.getCapacity());
+    existingInstallation.setRentalPrice(installation.getRentalPrice());
+    return installationRepository.save(existingInstallation);
   }
 
   public boolean isNameAvailable(String name) {

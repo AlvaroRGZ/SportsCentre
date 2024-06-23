@@ -59,7 +59,7 @@ public class DatabaseSeederDev {
     LogManager.getLogger(this.getClass()).warn("        ------- materials");
 
     Installation[] installations = {
-        Installation.builder().name("Indoor Basketball Court").description("Full-size indoor basketball court").capacity(30).rentalPrice(BigDecimal.valueOf(50.00)).build(),
+        Installation.builder().name("Indoor Basketball Court").description("Full-size indoor basketball court").capacity(30).rentalPrice(BigDecimal.valueOf(50.00)).id("1").build(),
         Installation.builder().name("Swimming Pool").description("Olympic size swimming pool").capacity(100).rentalPrice(BigDecimal.valueOf(100.00)).build(),
         Installation.builder().name("Tennis Court").description("Outdoor clay tennis court").capacity(4).rentalPrice(BigDecimal.valueOf(30.00)).build(),
         Installation.builder().name("Fitness Studio").description("Studio for fitness classes and activities").capacity(25).rentalPrice(BigDecimal.valueOf(40.00)).build(),
