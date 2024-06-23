@@ -44,7 +44,7 @@ public class DatabaseSeederDev {
   private void seedDataBaseJava() {
     LogManager.getLogger(this.getClass()).warn("------- Initial Load from JAVA -----------");
     Material[] materials = {
-        Material.builder().name("Yoga Mats").description("High-grip mats for yoga classes").quantity(30).build(),
+        Material.builder().name("Yoga Mats").description("High-grip mats for yoga classes").quantity(30).id("1").build(),
         Material.builder().name("Dumbbells").description("Set of 5-50 lb dumbbells for weight training").quantity(40).build(),
         Material.builder().name("Resistance Bands").description("Variety of resistance bands for strength training").quantity(50).build(),
         Material.builder().name("Kettlebells").description("Range of kettlebells from 10 to 50 lbs").quantity(20).build(),
