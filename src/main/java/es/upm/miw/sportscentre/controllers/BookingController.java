@@ -33,7 +33,8 @@ public class BookingController {
   }
 
   public Booking findById(String id) {
-    return bookingRepository.findById(id).orElse(null);
+    return bookingRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Booking not found"));
   }
 
   public List<Booking> findByInstallationId(String installationId) {

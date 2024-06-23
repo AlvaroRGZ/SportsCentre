@@ -64,7 +64,10 @@ public class BookingControllerTest {
 
     // Delete
     bookingController.deleteById(savedBooking.getId());
-    assertNull(bookingController.findById(savedBooking.getId()));
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      bookingController.findById(savedBooking.getId());
+    });
+    assertEquals("Booking not found", exception.getMessage());
   }
 
   @Test
@@ -104,7 +107,10 @@ public class BookingControllerTest {
 
     // Delete
     bookingController.deleteById(savedBooking.getId());
-    assertNull(bookingController.findById(savedBooking.getId()));
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      bookingController.findById(savedBooking.getId());
+    });
+    assertEquals("Booking not found", exception.getMessage());
   }
 
   @Test
