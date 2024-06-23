@@ -45,7 +45,10 @@ public class NoticeControllerTest {
 
     // Delete
     noticeController.deleteById(savedNotice.getId());
-    assertNull(noticeController.findById(savedNotice.getId()));
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      noticeController.findById(savedNotice.getId());
+    });
+    assertEquals("Notice not found", exception.getMessage());
   }
 
   @Test

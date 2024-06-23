@@ -18,7 +18,8 @@ public class NoticeController {
   }
 
   public Notice findById(String id) {
-    return noticeRepository.findById(id).orElse(null);
+    return noticeRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Notice not found"));
   }
 
   public Notice save(Notice notice) {
