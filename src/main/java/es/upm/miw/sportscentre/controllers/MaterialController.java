@@ -29,8 +29,8 @@ public class MaterialController {
     return materialIds.stream().map(this::findById).toList();
   }
 
-  public Material save(Material Material) {
-    return materialRepository.save(Material);
+  public Material save(Material material) {
+    return materialRepository.save(material);
   }
 
   public void deleteById(String id) {
