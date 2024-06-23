@@ -1,5 +1,6 @@
 package es.upm.miw.sportscentre.models.daos;
 
+import es.upm.miw.sportscentre.controllers.BookingController;
 import es.upm.miw.sportscentre.controllers.SportClassController;
 import es.upm.miw.sportscentre.models.*;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +22,7 @@ public class DatabaseSeederDev {
   private final UserRepository userRepository;
   private final NoticeRepository noticeRepository;
   private final SportClassRepository sportClassRepository;
+  private final BookingRepository bookingRepository;
 
   @Autowired
   public DatabaseSeederDev(MaterialRepository materialRepository,
@@ -28,13 +30,15 @@ public class DatabaseSeederDev {
                            ComplaintRepository complaintRepository,
                            UserRepository userRepository,
                            NoticeRepository noticeRepository,
-                           SportClassRepository sportClassRepository) {
+                           SportClassRepository sportClassRepository,
+                           BookingRepository bookingRepository) {
     this.materialRepository = materialRepository;
     this.installationRepository = installationRepository;
     this.complaintRepository = complaintRepository;
     this.userRepository = userRepository;
     this.noticeRepository = noticeRepository;
     this.sportClassRepository = sportClassRepository;
+    this.bookingRepository = bookingRepository;
     this.deleteAllAndInitializeAndSeedDataBase();
   }
 
@@ -50,6 +54,7 @@ public class DatabaseSeederDev {
     this.userRepository.deleteAll();
     this.noticeRepository.deleteAll();
     this.sportClassRepository.deleteAll();
+    this.bookingRepository.deleteAll();
     LogManager.getLogger(this.getClass()).warn("------- Delete All -----------");
   }
 
@@ -131,5 +136,48 @@ public class DatabaseSeederDev {
     };
     this.sportClassRepository.saveAll(List.of(sportClasses));
     LogManager.getLogger(this.getClass()).warn("        ------- Sport Classes");
+
+    // Crear y guardar las reservas
+    Booking[] bookings = {
+        Booking.builder()
+            .datetime(LocalDateTime.now().plusDays(1))
+            .registrationTime(LocalDateTime.now())
+            .booker(users[0])
+            .installation(installations[0])
+            .materials(List.of(materials[0], materials[1]))
+            .id("1")
+            .build(),
+        Booking.builder()
+            .datetime(LocalDateTime.now().plusDays(2))
+            .registrationTime(LocalDateTime.now())
+            .booker(users[1])
+            .installation(installations[1])
+            .materials(List.of(materials[2]))
+            .build(),
+        Booking.builder()
+            .datetime(LocalDateTime.now().plusDays(3))
+            .registrationTime(LocalDateTime.now())
+            .booker(users[2])
+            .installation(installations[2])
+            .materials(List.of(materials[3]))
+            .build(),
+        Booking.builder()
+            .datetime(LocalDateTime.now().plusDays(4))
+            .registrationTime(LocalDateTime.now())
+            .booker(users[3])
+            .installation(installations[3])
+            .materials(List.of(materials[4]))
+            .build(),
+        Booking.builder()
+            .datetime(LocalDateTime.now().plusDays(5))
+            .registrationTime(LocalDateTime.now())
+            .booker(users[0])
+            .installation(installations[4])
+            .materials(List.of(materials[0], materials[1]))
+            .build()
+    };
+    this.bookingRepository.saveAll(List.of(bookings));
+    LogManager.getLogger(this.getClass()).warn("        ------- Bookings");
+
   }
 }
