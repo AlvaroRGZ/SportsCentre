@@ -10,9 +10,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/notices")
 public class NoticeView {
-
-  @Autowired
   private NoticeController noticeController;
+
+  NoticeView(@Autowired NoticeController noticeController) {
+    this.noticeController = noticeController;
+  }
 
   @GetMapping
   public List<Notice> getAll() {
