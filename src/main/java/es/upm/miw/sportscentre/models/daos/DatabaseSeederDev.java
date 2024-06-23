@@ -3,6 +3,7 @@ package es.upm.miw.sportscentre.models.daos;
 import es.upm.miw.sportscentre.models.Complaint;
 import es.upm.miw.sportscentre.models.Installation;
 import es.upm.miw.sportscentre.models.Material;
+import es.upm.miw.sportscentre.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -18,18 +19,21 @@ public class DatabaseSeederDev {
   private final MaterialRepository materialRepository;
   private final InstallationRepository installationRepository;
   private final ComplaintRepository complaintRepository;
+  private final UserRepository userRepository;
 
   @Autowired
   public DatabaseSeederDev(MaterialRepository materialRepository,
                            InstallationRepository installationRepository,
-                           ComplaintRepository complaintRepository) {
+                           ComplaintRepository complaintRepository,
+                           UserRepository userRepository) {
     this.materialRepository = materialRepository;
     this.installationRepository = installationRepository;
     this.complaintRepository = complaintRepository;
+    this.userRepository = userRepository;
     this.deleteAllAndInitializeAndSeedDataBase();
   }
 
-  public void deleteAllAndInitializeAndSeedDataBase(){
+  public void deleteAllAndInitializeAndSeedDataBase() {
     this.deleteAllAndInitialize();
     this.seedDataBaseJava();
   }
@@ -38,11 +42,13 @@ public class DatabaseSeederDev {
     this.materialRepository.deleteAll();
     this.installationRepository.deleteAll();
     this.complaintRepository.deleteAll();
+    this.userRepository.deleteAll();
     LogManager.getLogger(this.getClass()).warn("------- Delete All -----------");
   }
 
   private void seedDataBaseJava() {
     LogManager.getLogger(this.getClass()).warn("------- Initial Load from JAVA -----------");
+
     Material[] materials = {
         Material.builder().name("Yoga Mats").description("High-grip mats for yoga classes").quantity(30).id("1").build(),
         Material.builder().name("Dumbbells").description("Set of 5-50 lb dumbbells for weight training").quantity(40).build(),
@@ -83,10 +89,49 @@ public class DatabaseSeederDev {
         Complaint.builder().title("Instructor Late").body("The yoga instructor arrived late.").datetime(LocalDateTime.now().minusDays(5)).build(),
         Complaint.builder().title("Parking Issue").body("Parking lot was full.").datetime(LocalDateTime.now().minusDays(7)).build(),
         Complaint.builder().title("No Water").body("Water dispenser was empty for the whole day.").datetime(LocalDateTime.now().minusHours(5)).build(),
-        Complaint.builder().title("Air Conditioning").body("Air conditioning was not working in the spin room.").datetime(LocalDateTime.now().minusDays(6)).build()
+        Complaint.builder().title("Air Conditioning").body("Air conditioning was not working in the spin room.").datetime(LocalDateTime.now().minusDays(6)).build(),
+        Complaint.builder().title("Client complaint").body("client complaint description.").datetime(LocalDateTime.now().minusDays(7)).build(),
+        Complaint.builder().title("Client a complaint").body("client a complaint description.").datetime(LocalDateTime.now().minusDays(8)).build(),
+        Complaint.builder().title("Client a complaint 2").body("client a complaint description 2.").datetime(LocalDateTime.now().minusDays(9)).build()
     };
     this.complaintRepository.saveAll(List.of(complaints));
     LogManager.getLogger(this.getClass()).warn("        ------- Complaints");
-  }
 
+    User[] users = {
+        User.builder()
+            .name("admin")
+            .email("admin@gmail.com")
+            .password("aaaaaa")
+            .role("ADMIN")
+            .complaints(List.of())
+            .id("1")
+            .build(),
+
+        User.builder()
+            .name("client")
+            .email("client@gmail.com")
+            .password("cccccc")
+            .role("CLIENT")
+            .complaints(List.of(complaints[12]))
+            .build(),
+
+        User.builder()
+            .name("a")
+            .email("a@gmail.com")
+            .password("aaaaaa")
+            .role("CLIENT")
+            .complaints(List.of(complaints[11], complaints[12]))
+            .build(),
+
+        User.builder()
+            .name("b")
+            .email("b@gmail.com")
+            .password("bbbbbb")
+            .role("CLIENT")
+            .complaints(List.of())
+            .build(),
+    };
+    this.userRepository.saveAll(List.of(users));
+    LogManager.getLogger(this.getClass()).warn("        ------- Users");
+  }
 }
