@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserView {
-
-  @Autowired
   private UserController userController;
-
+  UserView(@Autowired UserController userController) {
+    this.userController = userController;
+  }
   @GetMapping
   public List<User> getAll() {
     return userController.findAll();
