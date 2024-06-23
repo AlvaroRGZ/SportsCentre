@@ -36,7 +36,8 @@ public class InstallationController {
   }
 
   public Installation update(String installationId, Installation installation) {
-    Installation existingInstallation = installationRepository.findById(installationId).orElseThrow(() -> new RuntimeException("Booking not found"));
+    Installation existingInstallation = installationRepository.findById(installationId)
+        .orElseThrow(() -> new RuntimeException("Installation not found"));
     existingInstallation.setName(installation.getName());
     existingInstallation.setDescription(installation.getDescription());
     existingInstallation.setCapacity(installation.getCapacity());
