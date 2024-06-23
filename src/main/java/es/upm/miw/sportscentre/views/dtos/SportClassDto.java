@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SportClassCreationDto {
+public class SportClassDto {
   private String title;
   private String installation;
   private Integer places;
-
 }

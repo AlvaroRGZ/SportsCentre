@@ -4,7 +4,7 @@ import es.upm.miw.sportscentre.models.Installation;
 import es.upm.miw.sportscentre.models.SportClass;
 import es.upm.miw.sportscentre.models.User;
 import es.upm.miw.sportscentre.models.daos.SportClassRepository;
-import es.upm.miw.sportscentre.views.dtos.SportClassCreationDto;
+import es.upm.miw.sportscentre.views.dtos.SportClassDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class SportClassController {
     return this.sportClassRepository.findByAssistantsContaining(user.getId());
   }
 
-  public SportClass save(SportClassCreationDto sportClassDto) {
+  public SportClass save(SportClassDto sportClassDto) {
     Installation installation = this.installationController.findById(sportClassDto.getInstallation());
 
     return sportClassRepository.save(SportClass.builder()

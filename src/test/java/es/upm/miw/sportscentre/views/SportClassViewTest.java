@@ -2,16 +2,13 @@ package es.upm.miw.sportscentre.views;
 
 import es.upm.miw.sportscentre.controllers.SportClassController;
 import es.upm.miw.sportscentre.models.SportClass;
-import es.upm.miw.sportscentre.views.dtos.SportClassCreationDto;
+import es.upm.miw.sportscentre.views.dtos.SportClassDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,7 +50,7 @@ public class SportClassViewTest {
 
   @Test
   void testCreateSportClass() {
-    SportClassCreationDto newSportClass = SportClassCreationDto.builder()
+    SportClassDto newSportClass = SportClassDto.builder()
         .title("Pilates Class")
         .installation("1")
         .places(20)
@@ -84,7 +81,7 @@ public class SportClassViewTest {
 
   @Test
   void testDeleteSportClass() {
-    SportClassCreationDto newSportClass = SportClassCreationDto.builder()
+    SportClassDto newSportClass = SportClassDto.builder()
         .title("Class to Delete")
         .installation("1")
         .places(20)

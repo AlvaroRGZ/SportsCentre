@@ -1,7 +1,7 @@
 package es.upm.miw.sportscentre.controllers;
 
 import es.upm.miw.sportscentre.models.SportClass;
-import es.upm.miw.sportscentre.views.dtos.SportClassCreationDto;
+import es.upm.miw.sportscentre.views.dtos.SportClassDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,7 +45,7 @@ public class SportClassControllerTest {
 
   @Test
   void testSaveAndDelete() {
-    SportClassCreationDto newSportClassDto = SportClassCreationDto.builder()
+    SportClassDto newSportClassDto = SportClassDto.builder()
         .title("Test Sport Class")
         .places(20)
         .installation("1")
@@ -80,7 +80,7 @@ public class SportClassControllerTest {
 
   @Test
   void testSaveSportClassWithNonexistentInstallation() {
-    SportClassCreationDto newSportClassDto = SportClassCreationDto.builder()
+    SportClassDto newSportClassDto = SportClassDto.builder()
         .title("Test Sport Class")
         .places(20)
         .installation("nonexistent_installation_id")

@@ -3,7 +3,7 @@ package es.upm.miw.sportscentre.views;
 
 import es.upm.miw.sportscentre.controllers.SportClassController;
 import es.upm.miw.sportscentre.models.SportClass;
-import es.upm.miw.sportscentre.views.dtos.SportClassCreationDto;
+import es.upm.miw.sportscentre.views.dtos.SportClassDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +32,7 @@ public class SportClassView {
   }
 
   @PostMapping
-  public SportClass createSportClass(@RequestBody SportClassCreationDto sportClassDto) {
+  public SportClass createSportClass(@RequestBody SportClassDto sportClassDto) {
 
     return this.sportClassController.save(sportClassDto);
   }
