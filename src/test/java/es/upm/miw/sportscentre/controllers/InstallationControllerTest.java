@@ -47,7 +47,10 @@ public class InstallationControllerTest {
 
     // Delete
     installationController.deleteById(savedInstallation.getId());
-    assertNull(installationController.findById(savedInstallation.getId()));
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      installationController.findById(savedInstallation.getId());
+    });
+    assertEquals("Installation not found", exception.getMessage());
   }
 
   @Test

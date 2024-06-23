@@ -20,7 +20,8 @@ public class InstallationController {
   }
 
   public Installation findById(String id) {
-    return installationRepository.findById(id).orElse(null);
+    return installationRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Installation not found"));
   }
 
   public Installation save(Installation installation) {

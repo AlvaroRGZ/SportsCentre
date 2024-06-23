@@ -1,9 +1,11 @@
 package es.upm.miw.sportscentre.models.daos;
 
+import es.upm.miw.sportscentre.controllers.SportClassController;
 import es.upm.miw.sportscentre.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,18 +20,21 @@ public class DatabaseSeederDev {
   private final ComplaintRepository complaintRepository;
   private final UserRepository userRepository;
   private final NoticeRepository noticeRepository;
+  private final SportClassRepository sportClassRepository;
 
   @Autowired
   public DatabaseSeederDev(MaterialRepository materialRepository,
                            InstallationRepository installationRepository,
                            ComplaintRepository complaintRepository,
                            UserRepository userRepository,
-                           NoticeRepository noticeRepository) {
+                           NoticeRepository noticeRepository,
+                           SportClassRepository sportClassRepository) {
     this.materialRepository = materialRepository;
     this.installationRepository = installationRepository;
     this.complaintRepository = complaintRepository;
     this.userRepository = userRepository;
     this.noticeRepository = noticeRepository;
+    this.sportClassRepository = sportClassRepository;
     this.deleteAllAndInitializeAndSeedDataBase();
   }
 
@@ -44,6 +49,7 @@ public class DatabaseSeederDev {
     this.complaintRepository.deleteAll();
     this.userRepository.deleteAll();
     this.noticeRepository.deleteAll();
+    this.sportClassRepository.deleteAll();
     LogManager.getLogger(this.getClass()).warn("------- Delete All -----------");
   }
 
@@ -115,5 +121,15 @@ public class DatabaseSeederDev {
     };
     this.noticeRepository.saveAll(List.of(notices));
     LogManager.getLogger(this.getClass()).warn("        ------- Notices");
+
+    SportClass[] sportClasses = {
+        SportClass.builder().title("Yoga Class").places(30).installation(installations[4]).assistants(List.of()).id("1").build(),
+        SportClass.builder().title("Pilates Class").places(20).installation(installations[2]).assistants(List.of(users[2])).build(),
+        SportClass.builder().title("Spinning Class").places(25).installation(installations[6]).assistants(List.of(users[2], users[3])).build(),
+        SportClass.builder().title("Boxing Class").places(15).installation(installations[8]).assistants(List.of(users[1])).build(),
+        SportClass.builder().title("CrossFit Class").places(20).installation(installations[2]).assistants(List.of()).build()
+    };
+    this.sportClassRepository.saveAll(List.of(sportClasses));
+    LogManager.getLogger(this.getClass()).warn("        ------- Sport Classes");
   }
 }
