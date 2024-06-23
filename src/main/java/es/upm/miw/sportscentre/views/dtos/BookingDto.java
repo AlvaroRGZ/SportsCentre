@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@NonNull
 public class BookingDto {
   private LocalDateTime datetime;
   private LocalDateTime registrationTime;
