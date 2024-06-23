@@ -6,6 +6,7 @@ import es.upm.miw.sportscentre.models.daos.ComplaintRepository;
 import es.upm.miw.sportscentre.models.daos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -21,30 +22,21 @@ public class UserController {
   }
 
   public User findById(String id) {
-    return userRepository.findById(id).orElse(null);
+    return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
   }
 
   public User save(User user) {
-    System.out.println("GUARDANDO USUARIO " + user.getEmail());
-
     if (!userRepository.existsByEmail(user.getEmail())) {
       return userRepository.save(
-        User.builder()
-          .name(user.getEmail().substring(0, user.getEmail().indexOf('@')))
-          .email(user.getEmail())
-          .password(user.getPassword())
-          .role(user.getRole())
-          .complaints(List.of())
-          .build());
+          User.builder()
+              .name(user.getEmail().substring(0, user.getEmail().indexOf('@')))
+              .email(user.getEmail())
+              .password(user.getPassword())
+              .role(user.getRole())
+              .complaints(List.of())
+              .build());
     }
     return user;
-  }
-
-  public void deleteById(String id) {
-    //this.findById(id).getComplaints().forEach(complaint -> {
-    //  this.complaintRepository.delete(complaint);
-    //});
-    userRepository.deleteById(id);
   }
 
   public void deleteAll() {
@@ -52,7 +44,8 @@ public class UserController {
   }
 
   public User findByEmail(String email) {
-    return this.userRepository.findUserByEmail(email);
+    return this.userRepository.findUserByEmail(email)
+        .orElseThrow(() -> new RuntimeException("User with email " + email + " not found"));
   }
 
   public boolean existsByEmail(String email) {
@@ -60,16 +53,18 @@ public class UserController {
   }
 
   public User addComplaintToUser(String email, Complaint complaint) {
-    User user = this.userRepository.findUserByEmail(email);
+    User user = this.findByEmail(email);
     this.complaintController.save(complaint);
     user.addComplaint(complaint);
-    System.out.println("USER: " + user);
-    System.out.println("COMPLAINT: " + complaint);
     return this.userRepository.save(user);
   }
 
+  public void deleteById(String id) {
+    this.userRepository.deleteById(id);
+  }
+
   public User deleteComplaintFromUser(String email, String complaintId) {
-    User user = this.userRepository.findUserByEmail(email);
+    User user = this.findByEmail(email);
     Complaint complaint = this.complaintController.findById(complaintId);
     user.deleteComplaint(complaint);
     this.complaintController.deleteById(complaintId);
@@ -77,12 +72,8 @@ public class UserController {
   }
 
   public List<Complaint> getUserComplaints(String email) {
-    User user = userRepository.findUserByEmail(email);
-    if (user != null) {
-      return user.getComplaints();
-    }
-    // Handle case when user is not found
-    throw new IllegalArgumentException("User with email " + email + " not found");
+    User user = this.findByEmail(email);
+    return user.getComplaints();
   }
 
   public List<User> findUsersWhoHaveComplaints() {

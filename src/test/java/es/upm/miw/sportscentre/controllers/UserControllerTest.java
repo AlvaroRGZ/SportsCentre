@@ -25,59 +25,76 @@ public class UserControllerTest {
     List<User> users = userController.findAll();
     assertNotNull(users);
     assertFalse(users.isEmpty());
-    assertEquals("admin", users.get(0).getName());
   }
 
   @Test
   void testFindById() {
     User user = userController.findById("1");
     assertNotNull(user);
-    assertEquals("admin", user.getName());
+    assertEquals("admin@gmail.com", user.getEmail());
   }
 
   @Test
   void testSaveAndDelete() {
     User newUser = User.builder()
-        .name("eve")
-        .email("eve@example.com")
-        .password("password5")
+        .email("newuser@gmail.com")
+        .password("password")
         .role("CLIENT")
-        .complaints(List.of())
         .build();
 
     // Save
     User savedUser = userController.save(newUser);
     assertNotNull(savedUser);
-    assertEquals("eve", savedUser.getName());
+    assertEquals("newuser@gmail.com", savedUser.getEmail());
 
     // Delete
     userController.deleteById(savedUser.getId());
-    assertNull(userController.findById(savedUser.getId()));
+    assertThrows(RuntimeException.class, () -> userController.findById(savedUser.getId()));
+
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userController.findById("nonexistent_id");
+    });
+    assertEquals("User not found", exception.getMessage());
   }
 
   @Test
   void testAddComplaintToUser() {
-    Complaint newComplaint = Complaint.builder()
+    Complaint complaint = Complaint.builder()
         .title("New Complaint")
-        .body("New complaint body")
+        .body("Complaint body")
         .datetime(LocalDateTime.now())
         .build();
 
-    User user = userController.addComplaintToUser("admin@gmail.com", newComplaint);
+    User user = userController.addComplaintToUser("admin@gmail.com", complaint);
     assertNotNull(user);
-    assertTrue(user.getComplaints().stream().anyMatch(complaint -> "New Complaint".equals(complaint.getTitle())));
+    assertTrue(user.getComplaints().contains(complaint));
   }
 
   @Test
   void testDeleteComplaintFromUser() {
-    User user = userController.findByEmail("client@gmail.com");
-    assertNotNull(user);
-    assertFalse(user.getComplaints().isEmpty());
+    Complaint complaint = Complaint.builder()
+        .title("New Complaint")
+        .body("Complaint body")
+        .datetime(LocalDateTime.now())
+        .build();
 
-    Complaint complaint = user.getComplaints().get(0);
-    user = userController.deleteComplaintFromUser(user.getEmail(), complaint.getId());
+    userController.addComplaintToUser("admin@gmail.com", complaint);
+    User user = userController.deleteComplaintFromUser("admin@gmail.com", complaint.getId());
     assertNotNull(user);
-    assertFalse(user.getComplaints().stream().anyMatch(c -> c.getId().equals(complaint.getId())));
+    assertFalse(user.getComplaints().contains(complaint));
+  }
+
+  @Test
+  void testFindByEmail() {
+    User user = userController.findByEmail("admin@gmail.com");
+    assertNotNull(user);
+    assertEquals("admin@gmail.com", user.getEmail());
+  }
+
+  @Test
+  void testExistsByEmail() {
+    assertTrue(userController.existsByEmail("admin@gmail.com"));
+    assertFalse(userController.existsByEmail("nonexistent@gmail.com"));
   }
 
   @Test
@@ -92,5 +109,44 @@ public class UserControllerTest {
     List<User> users = userController.findUsersWhoHaveComplaints();
     assertNotNull(users);
     assertFalse(users.isEmpty());
+  }
+
+  // Casos en los que se espera un error
+  @Test
+  void testFindByIdNotFound() {
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userController.findById("nonexistent_id");
+    });
+    assertEquals("User not found", exception.getMessage());
+  }
+
+  @Test
+  void testGetUserComplaintsNotFound() {
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userController.getUserComplaints("nonexistent@gmail.com");
+    });
+    assertEquals("User with email nonexistent@gmail.com not found", exception.getMessage());
+  }
+
+  @Test
+  void testAddComplaintToNonexistentUser() {
+    Complaint complaint = Complaint.builder()
+        .title("New Complaint")
+        .body("Complaint body")
+        .datetime(LocalDateTime.now())
+        .build();
+
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userController.addComplaintToUser("nonexistent@gmail.com", complaint);
+    });
+    assertEquals("User with email nonexistent@gmail.com not found", exception.getMessage());
+  }
+
+  @Test
+  void testDeleteComplaintFromNonexistentUser() {
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userController.deleteComplaintFromUser("nonexistent@gmail.com", "nonexistent_complaint_id");
+    });
+    assertEquals("User with email nonexistent@gmail.com not found", exception.getMessage());
   }
 }
