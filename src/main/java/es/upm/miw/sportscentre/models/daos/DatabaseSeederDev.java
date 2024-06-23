@@ -74,7 +74,7 @@ public class DatabaseSeederDev {
     LogManager.getLogger(this.getClass()).warn("        ------- Installations");
 
     Complaint[] complaints = {
-        Complaint.builder().title("Unscheduled Maintenance").body("The gym was closed unexpectedly.").datetime(LocalDateTime.now().minusDays(1)).build(),
+        Complaint.builder().title("Unscheduled Maintenance").body("The gym was closed unexpectedly.").datetime(LocalDateTime.now().minusDays(1)).id("1").build(),
         Complaint.builder().title("Equipment Issue").body("The treadmill is not working properly.").datetime(LocalDateTime.now().minusHours(2)).build(),
         Complaint.builder().title("Customer Service").body("Reception was not helpful.").datetime(LocalDateTime.now().minusWeeks(1)).build(),
         Complaint.builder().title("Overcrowding").body("Too many people during peak hours.").datetime(LocalDateTime.now().minusDays(3)).build(),

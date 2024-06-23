@@ -19,7 +19,8 @@ public class ComplaintController {
   }
 
   public Complaint findById(String id) {
-    return ComplaintRepository.findById(id).orElse(null);
+    return ComplaintRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Complaint not found"));
   }
 
   public Complaint save(Complaint complaint) {
