@@ -23,8 +23,8 @@ public class InstallationController {
     return installationRepository.findById(id).orElse(null);
   }
 
-  public Installation save(Installation Installation) {
-    return installationRepository.save(Installation);
+  public Installation save(Installation installation) {
+    return installationRepository.save(installation);
   }
 
   public void deleteById(String id) {
