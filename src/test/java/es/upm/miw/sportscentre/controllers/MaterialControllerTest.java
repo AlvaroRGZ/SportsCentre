@@ -46,4 +46,20 @@ public class MaterialControllerTest {
     materialController.deleteById(savedMaterial.getId());
     assertNull(materialController.findById(savedMaterial.getId()));
   }
+  @Test
+  void testUpdateMaterial() {
+    Material originalMaterial = materialController.findById("1");
+    assertNotNull(originalMaterial);
+
+    // Update
+    originalMaterial.setName("Updated Name");
+    originalMaterial.setDescription("Updated Description");
+    originalMaterial.setQuantity(150);
+
+    Material updatedMaterial = materialController.update("1", originalMaterial);
+    assertNotNull(updatedMaterial);
+    assertEquals("Updated Name", updatedMaterial.getName());
+    assertEquals("Updated Description", updatedMaterial.getDescription());
+    assertEquals(150, updatedMaterial.getQuantity());
+  }
 }

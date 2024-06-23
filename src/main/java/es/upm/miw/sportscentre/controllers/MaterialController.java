@@ -1,12 +1,10 @@
 package es.upm.miw.sportscentre.controllers;
 
 import es.upm.miw.sportscentre.models.Material;
-import es.upm.miw.sportscentre.models.Material;
 import es.upm.miw.sportscentre.models.daos.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MaterialController {
@@ -23,7 +21,7 @@ public class MaterialController {
   }
 
   public List<Material> findByListOfIds(List<String> materialIds) {
-    if (materialIds.size() == 0) {
+    if (materialIds.isEmpty()) {
       return List.of();
     }
     return materialIds.stream().map(this::findById).toList();
