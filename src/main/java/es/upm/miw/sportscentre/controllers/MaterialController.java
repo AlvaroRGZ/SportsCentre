@@ -42,17 +42,10 @@ public class MaterialController {
   }
 
   public Material update(String id, Material material) {
-    System.out.println("Registro " + material.toString());
-    Optional<Material> existingMaterialOptional = materialRepository.findById(id);
-    if (existingMaterialOptional.isPresent()) {
-      Material existingMaterial = existingMaterialOptional.get();
-      existingMaterial.setName(material.getName());
-      existingMaterial.setDescription(material.getDescription());
-      existingMaterial.setQuantity(material.getQuantity());
-      return materialRepository.save(existingMaterial);
-    } else {
-      // throw new Exception("Non existent material: " + materialId);
-      return material;
-    }
+    Material existingMaterial = materialRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+    existingMaterial.setName(material.getName());
+    existingMaterial.setDescription(material.getDescription());
+    existingMaterial.setQuantity(material.getQuantity());
+    return materialRepository.save(existingMaterial);
   }
 }
