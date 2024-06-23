@@ -42,7 +42,12 @@ public class BookingController {
   }
 
   public Booking save(BookingDto booking) {
-    // Update materials quantity
+    booking.getMaterials().forEach((materialId) -> {
+      Material material = this.materialController.findById(materialId);
+      material.removeQuantity(1);
+      this.materialController.save(material);
+    });
+
     return bookingRepository.save(
         Booking.builder()
             .booker(this.userController.findByEmail(booking.getBooker()))

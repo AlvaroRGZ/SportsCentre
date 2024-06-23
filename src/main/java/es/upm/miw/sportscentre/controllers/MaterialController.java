@@ -41,7 +41,8 @@ public class MaterialController {
   }
 
   public Material update(String id, Material material) {
-    Material existingMaterial = materialRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+    Material existingMaterial = materialRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Booking not found"));
     existingMaterial.setName(material.getName());
     existingMaterial.setDescription(material.getDescription());
     existingMaterial.setQuantity(material.getQuantity());

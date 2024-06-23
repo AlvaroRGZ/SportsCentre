@@ -23,7 +23,6 @@ public class BookingView {
   public List<Booking> getAll() {
     return bookingController.findAll();
   }
-
   @GetMapping("/{id}")
   public Booking getBookingById(@PathVariable String id) {
     return bookingController.findById(id);
