@@ -1,4 +1,5 @@
 package es.upm.miw.sportscentre.models;
+import es.upm.miw.sportscentre.views.dtos.NoticeDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +20,12 @@ public class Notice {
   private String title;
   private String body;
   private LocalDateTime dateTime;
+
+  static public Notice fromNoticeDto(NoticeDto notice) {
+    return Notice.builder()
+        .title(notice.getTitle())
+        .body(notice.getBody())
+        .dateTime(notice.getDateTime())
+        .build();
+  }
 }
