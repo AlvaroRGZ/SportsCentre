@@ -61,9 +61,8 @@ public class BookingController {
 
   public void deleteById(String id) {
     this.findById(id).getMaterials().forEach(material -> {
-      this.materialController.findById(material.getId())
-          .addQuantity(1);
-      //this.materialController.save()
+      material.addQuantity(1);
+      this.materialController.save(material);
     });
     bookingRepository.deleteById(id);
   }
