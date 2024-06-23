@@ -1,19 +1,19 @@
 package es.upm.miw.sportscentre.views;
 
 import es.upm.miw.sportscentre.controllers.MaterialController;
-import es.upm.miw.sportscentre.models.Installation;
 import es.upm.miw.sportscentre.models.Material;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/materials")
 public class MaterialView {
-
-  @Autowired
   private MaterialController materialController;
+
+  MaterialView(@Autowired MaterialController materialController) {
+    this.materialController = materialController;
+  }
 
   @GetMapping
   public List<Material> getAll() {
