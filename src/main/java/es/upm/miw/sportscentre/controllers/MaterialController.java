@@ -17,7 +17,8 @@ public class MaterialController {
   }
 
   public Material findById(String id) {
-    return materialRepository.findById(id).orElse(null);
+    return materialRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Material not found"));
   }
 
   public List<Material> findByListOfIds(List<String> materialIds) {

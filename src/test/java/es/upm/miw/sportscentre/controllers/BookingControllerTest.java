@@ -20,6 +20,8 @@ public class BookingControllerTest {
 
   @Autowired
   private MaterialController materialController;
+  @Autowired
+  private InstallationController installationController;
 
   @Test
   void testFindAll() {
@@ -46,10 +48,13 @@ public class BookingControllerTest {
   void testSaveAndDelete() {
     BookingDto newBookingDto = BookingDto.builder()
         .booker("admin@gmail.com")
-        .installation("1")
+        .installation(this.installationController.findAll().get(2).getId())
         .datetime(LocalDateTime.now().plusDays(1))
         .registrationTime(LocalDateTime.now())
-        .materials(List.of("1", "2"))
+        .materials(List.of(
+            this.materialController.findAll().get(3).getId(),
+            this.materialController.findAll().get(1).getId()
+        ))
         .build();
 
     // Save
@@ -71,7 +76,10 @@ public class BookingControllerTest {
 
   @Test
   void testUpdateMaterials() {
-    List<Material> materials = materialController.findByListOfIds(List.of("1", "2"));
+    List<Material> materials = materialController.findByListOfIds(List.of(
+        this.materialController.findAll().get(2).getId(),
+        this.materialController.findAll().get(6).getId()
+    ));
     Booking updatedBooking = bookingController.updateMaterials("1", materials);
     assertNotNull(updatedBooking);
     assertEquals(2, updatedBooking.getMaterials().size());
@@ -81,10 +89,13 @@ public class BookingControllerTest {
   void testDeleteById() {
     BookingDto newBookingDto = BookingDto.builder()
         .booker("admin@gmail.com")
-        .installation("1")
+        .installation(this.installationController.findAll().get(1).getId())
         .datetime(LocalDateTime.now().plusDays(1))
         .registrationTime(LocalDateTime.now())
-        .materials(List.of("1", "2"))
+        .materials(List.of(
+            this.materialController.findAll().get(1).getId(),
+            this.materialController.findAll().get(2).getId()
+        ))
         .build();
 
     // Save
@@ -103,7 +114,10 @@ public class BookingControllerTest {
         .installation("nonexistent_installation_id")
         .datetime(LocalDateTime.now().plusDays(1))
         .registrationTime(LocalDateTime.now())
-        .materials(List.of("1", "2"))
+        .materials(List.of(
+            this.materialController.findAll().get(1).getId(),
+            this.materialController.findAll().get(2).getId()
+        ))
         .build();
 
     Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -116,10 +130,13 @@ public class BookingControllerTest {
   void testSaveBookingWithNonexistentBooker() {
     BookingDto newBookingDto = BookingDto.builder()
         .booker("nonexistent@gmail.com")
-        .installation("1")
+        .installation(this.installationController.findAll().get(1).getId())
         .datetime(LocalDateTime.now().plusDays(1))
         .registrationTime(LocalDateTime.now())
-        .materials(List.of("1", "2"))
+        .materials(List.of(
+            this.materialController.findAll().get(1).getId(),
+            this.materialController.findAll().get(2).getId()
+        ))
         .build();
 
     Exception exception = assertThrows(RuntimeException.class, () -> {

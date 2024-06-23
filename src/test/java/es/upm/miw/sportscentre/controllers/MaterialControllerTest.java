@@ -44,7 +44,10 @@ public class MaterialControllerTest {
 
     // Delete
     materialController.deleteById(savedMaterial.getId());
-    assertNull(materialController.findById(savedMaterial.getId()));
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      materialController.findById(savedMaterial.getId());
+    });
+    assertEquals("Material not found", exception.getMessage());
   }
   @Test
   void testUpdateMaterial() {
