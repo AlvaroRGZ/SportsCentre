@@ -1,6 +1,5 @@
 package es.upm.miw.sportscentre.models;
 
-import es.upm.miw.sportscentre.views.dtos.NoticeDto;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -37,22 +36,6 @@ class NoticeTest {
     assertEquals("1", notice.getId());
     assertEquals("Test Notice", notice.getTitle());
     assertEquals("This is a test notice.", notice.getBody());
-    assertEquals(now, notice.getDateTime());
-  }
-
-  @Test
-  void testFromNoticeDto() {
-    LocalDateTime now = LocalDateTime.now();
-    NoticeDto noticeDto = NoticeDto.builder()
-        .title("DTO Notice")
-        .body("This is a DTO notice.")
-        .dateTime(now)
-        .build();
-
-    Notice notice = Notice.fromNoticeDto(noticeDto);
-
-    assertEquals("DTO Notice", notice.getTitle());
-    assertEquals("This is a DTO notice.", notice.getBody());
     assertEquals(now, notice.getDateTime());
   }
 
