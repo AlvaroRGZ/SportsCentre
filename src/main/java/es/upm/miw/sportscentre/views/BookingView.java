@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/bookings")
 public class BookingView {
 
-  @Autowired
   private BookingController bookingController;
+
+  BookingView(@Autowired BookingController bookingController) {
+    this.bookingController = bookingController;
+  }
 
   @GetMapping
   public List<Booking> getAll() {
