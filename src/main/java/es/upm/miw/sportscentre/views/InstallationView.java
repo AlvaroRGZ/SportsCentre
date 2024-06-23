@@ -11,9 +11,10 @@ import java.util.List;
 @RequestMapping("/installations")
 public class InstallationView {
 
-  @Autowired
   private InstallationController installationController;
-
+  InstallationView(@Autowired InstallationController installationController) {
+    this.installationController = installationController;
+  }
   @GetMapping
   public List<Installation> getAll() {
     return installationController.findAll();
