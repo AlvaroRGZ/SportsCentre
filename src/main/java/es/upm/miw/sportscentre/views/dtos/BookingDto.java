@@ -1,9 +1,6 @@
 package es.upm.miw.sportscentre.views.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@NonNull
 public class BookingDto {
   private LocalDateTime datetime;
   private LocalDateTime registrationTime;
