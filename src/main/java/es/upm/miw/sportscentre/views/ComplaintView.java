@@ -11,31 +11,32 @@ import java.util.List;
 @RequestMapping("/complaints")
 public class ComplaintView {
 
-  @Autowired
-  private ComplaintController ComplaintController;
-
+  private ComplaintController complaintController;
+  ComplaintView(@Autowired ComplaintController complaintController) {
+    this.complaintController = complaintController;
+  }
   @GetMapping
   public List<Complaint> getAll() {
-    return ComplaintController.findAll();
+    return complaintController.findAll();
   }
 
   @GetMapping("/{id}")
   public Complaint getComplaintById(@PathVariable String id) {
-    return ComplaintController.findById(id);
+    return complaintController.findById(id);
   }
 
   @PostMapping
   public Complaint createComplaint(@RequestBody Complaint complaint) {
-    return ComplaintController.save(complaint);
+    return complaintController.save(complaint);
   }
 
   @DeleteMapping("/{id}")
   public void deleteComplaint(@PathVariable String id) {
-    ComplaintController.deleteById(id);
+    complaintController.deleteById(id);
   }
 
   @DeleteMapping("/all")
   public void deleteAllComplaintsBeforeDate() {
-    ComplaintController.deleteAllNoticesBeforeDate();
+    complaintController.deleteAllNoticesBeforeDate();
   }
 }
