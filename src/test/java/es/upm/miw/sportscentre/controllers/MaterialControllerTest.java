@@ -51,7 +51,6 @@ public class MaterialControllerTest {
     Material originalMaterial = materialController.findById("1");
     assertNotNull(originalMaterial);
 
-    // Update
     originalMaterial.setName("Updated Name");
     originalMaterial.setDescription("Updated Description");
     originalMaterial.setQuantity(150);
@@ -61,5 +60,26 @@ public class MaterialControllerTest {
     assertEquals("Updated Name", updatedMaterial.getName());
     assertEquals("Updated Description", updatedMaterial.getDescription());
     assertEquals(150, updatedMaterial.getQuantity());
+  }
+
+  @Test
+  void testFindByListOfIds() {
+    List<Material> allMaterials = materialController.findAll();
+    assertNotNull(allMaterials);
+    assertTrue(allMaterials.size() > 3);
+
+    List<String> materialIds = List.of(
+        allMaterials.get(0).getId(),
+        allMaterials.get(1).getId(),
+        allMaterials.get(2).getId()
+    );
+
+    List<Material> foundMaterials = materialController.findByListOfIds(materialIds);
+    assertNotNull(foundMaterials);
+    assertEquals(3, foundMaterials.size());
+
+    assertEquals(allMaterials.get(0).getName(), foundMaterials.get(0).getName());
+    assertEquals(allMaterials.get(1).getName(), foundMaterials.get(1).getName());
+    assertEquals(allMaterials.get(2).getName(), foundMaterials.get(2).getName());
   }
 }
