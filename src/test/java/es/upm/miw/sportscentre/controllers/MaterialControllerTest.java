@@ -30,4 +30,20 @@ public class MaterialControllerTest {
     assertNotNull(material);
     assertEquals("Yoga Mats", material.getName());
   }
+  @Test
+  void testSaveAndDelete() {
+    Material newMaterial = new Material();
+    newMaterial.setName("Test Material");
+    newMaterial.setDescription("Test Description");
+    newMaterial.setQuantity(100);
+
+    // Save
+    Material savedMaterial = materialController.save(newMaterial);
+    assertNotNull(savedMaterial);
+    assertEquals("Test Material", savedMaterial.getName());
+
+    // Delete
+    materialController.deleteById(savedMaterial.getId());
+    assertNull(materialController.findById(savedMaterial.getId()));
+  }
 }
