@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 
 @Configuration
-public class FilterConfig {
+public class OriginFilter {
 
   private static final String ALLOWED_ORIGIN = "http://localhost:4200";
   private static final String SERVER_ADDRESS = "http://localhost:8080";
