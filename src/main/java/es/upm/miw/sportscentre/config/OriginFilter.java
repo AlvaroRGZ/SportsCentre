@@ -15,7 +15,6 @@ import java.io.IOException;
 public class OriginFilter implements Filter {
 
   private static final String ALLOWED_ORIGIN = "http://localhost:4200";
-  private static final String SERVER_ADDRESS = "http://localhost:4201";
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -30,8 +29,10 @@ public class OriginFilter implements Filter {
     String origin = httpRequest.getHeader("Origin");
     String referer = httpRequest.getHeader("Referer");
 
-    if ((ALLOWED_ORIGIN.equals(origin) || SERVER_ADDRESS.equals(origin)) &&
-        (referer == null || referer.startsWith(ALLOWED_ORIGIN) || referer.startsWith(SERVER_ADDRESS))) {
+    String serverAddress = httpRequest.getScheme() + "://" + httpRequest.getServerName() + ":" + httpRequest.getServerPort();
+
+    if ((ALLOWED_ORIGIN.equals(origin) || serverAddress.equals(origin)) &&
+        (referer == null || referer.startsWith(ALLOWED_ORIGIN) || referer.startsWith(serverAddress))) {
       chain.doFilter(request, response);
     } else {
       httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden: Invalid Origin or Referer");
