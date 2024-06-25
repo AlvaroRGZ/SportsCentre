@@ -8,45 +8,37 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Configuration
-public class OriginFilter {
+public class OriginFilter implements Filter {
 
   private static final String ALLOWED_ORIGIN = "http://localhost:4200";
   private static final String SERVER_ADDRESS = "http://localhost:8080";
 
-  @Bean(name = "customOriginFilter")
-  public Filter originFilter() {
-    return new Filter() {
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
+  }
 
-      @Override
-      public void init(FilterConfig filterConfig) throws ServletException {
-      }
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    HttpServletRequest httpRequest = (HttpServletRequest) request;
+    HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-      @Override
-      public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-          throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+    String origin = httpRequest.getHeader("Origin");
+    String referer = httpRequest.getHeader("Referer");
 
-        String origin = httpRequest.getHeader("Origin");
-        String referer = httpRequest.getHeader("Referer");
+    if ((ALLOWED_ORIGIN.equals(origin) || SERVER_ADDRESS.equals(origin)) &&
+        (referer == null || referer.startsWith(ALLOWED_ORIGIN) || referer.startsWith(SERVER_ADDRESS))) {
+      chain.doFilter(request, response);
+    } else {
+      httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden: Invalid Origin or Referer");
+    }
+  }
 
-        if ((ALLOWED_ORIGIN.equals(origin) || SERVER_ADDRESS.equals(origin)) &&
-            (referer == null || referer.startsWith(ALLOWED_ORIGIN) || referer.startsWith(SERVER_ADDRESS))) {
-          chain.doFilter(request, response);
-        } else {
-          httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden: Invalid Origin or Referer");
-        }
-      }
-
-      @Override
-      public void destroy() {
-      }
-    };
+  @Override
+  public void destroy() {
   }
 }
