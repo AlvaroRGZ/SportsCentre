@@ -15,7 +15,7 @@ import java.io.IOException;
 public class OriginFilter implements Filter {
 
   private static final String ALLOWED_ORIGIN = "http://localhost:4200";
-  private static final String SERVER_ADDRESS = "http://localhost:8080";
+  private static final String SERVER_ADDRESS = "http://localhost:4201";
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
